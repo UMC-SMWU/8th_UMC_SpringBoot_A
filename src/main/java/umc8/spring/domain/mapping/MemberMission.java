@@ -2,6 +2,8 @@ package umc8.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc8.spring.domain.Member;
+import umc8.spring.domain.Mission;
 import umc8.spring.domain.common.BaseEntity;
 import umc8.spring.domain.enums.MissionStatus;
 
@@ -17,5 +19,14 @@ public class MemberMission extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(15)")
     private MissionStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 }
