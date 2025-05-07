@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.base.BaseEntity;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
