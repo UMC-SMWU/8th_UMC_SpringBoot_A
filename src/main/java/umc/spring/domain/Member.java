@@ -16,8 +16,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
 
@@ -63,5 +61,18 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberPrefer> memberPrefers = new ArrayList<>();
+
+    private Member(String name, String address, String specAddress, String gender, String socialType, String status, LocalDate inactiveDate,
+                   String email, Integer point){
+        this.name = name;
+        this.address = address;
+        this.specAddress = specAddress;
+        this.gender = Gender.valueOf(gender);
+        this.socialType = SocialType.valueOf(socialType);
+        this.status = MemberStatus.valueOf(status);
+        this.inactiveDate = inactiveDate;
+        this.email = email;
+        this.point = point;
+    }
 
 }

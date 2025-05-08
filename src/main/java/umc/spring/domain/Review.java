@@ -9,8 +9,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review extends BaseEntity {
 
@@ -31,4 +29,11 @@ public class Review extends BaseEntity {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewImage> reviewImages = new ArrayList<>();
 
+    @Builder
+    private Review(String body, Float score, Member member, Store store) {
+        this.body = body;
+        this.score = score;
+        this.member = member;
+        this.store = store;
+    }
 }

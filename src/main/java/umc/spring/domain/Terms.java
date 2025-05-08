@@ -10,8 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Terms extends BaseEntity {
     @Id
@@ -26,4 +24,10 @@ public class Terms extends BaseEntity {
 
     @OneToMany(mappedBy = "terms", cascade = CascadeType.ALL)
     private List<MemberAgree> memberAgreeList = new ArrayList<>();
+
+    private Terms(String title, String body, Boolean optional) {
+        this.title = title;
+        this.body = body;
+        this.optional = optional;
+    }
 }

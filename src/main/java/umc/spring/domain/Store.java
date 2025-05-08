@@ -9,8 +9,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Store extends BaseEntity {
     @Id
@@ -24,6 +22,7 @@ public class Store extends BaseEntity {
     private Float score;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private Region region;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
@@ -31,6 +30,14 @@ public class Store extends BaseEntity {
 
     @OneToMany(mappedBy = "store")
     private List<Review> reviews = new ArrayList<>();
+
+    @Builder
+    private Store(String name, String address, Float score, Region region) {
+        this.name = name;
+        this.address = address;
+        this.score = score;
+        this.region = region;
+    }
 
     @Override
     public String toString() {

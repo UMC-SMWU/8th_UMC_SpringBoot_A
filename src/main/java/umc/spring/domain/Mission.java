@@ -11,8 +11,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Mission extends BaseEntity {
     @Id
@@ -31,5 +29,13 @@ public class Mission extends BaseEntity {
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionsList = new ArrayList<>();
+
+
+    @Builder
+    private Mission(Integer reward, LocalDate deadLine, String missionSpec){
+        this.reward = reward;
+        this.deadLine = deadLine;
+        this.missionSpec = missionSpec;
+    }
 
 }
