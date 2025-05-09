@@ -7,7 +7,7 @@ import umc.spring.apiPayload.exception.handler.TempHandler;
 
 @Service
 @RequiredArgsConstructor
-public class TempCommandQueryImpl implements TempQueryService{
+public class TempQueryServiceImpl implements TempQueryService{
 
     @Override
     public void CheckFlag(Integer flag) {
