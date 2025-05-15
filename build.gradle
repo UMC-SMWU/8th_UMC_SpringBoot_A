@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.antlr:antlr4-runtime:4.10' // 실행 시점
 	annotationProcessor 'org.antlr:antlr4:4.10'    // 컴파일 시점
 	implementation 'mysql:mysql-connector-java:8.0.33'  // MySQL 드라이버 추가
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
