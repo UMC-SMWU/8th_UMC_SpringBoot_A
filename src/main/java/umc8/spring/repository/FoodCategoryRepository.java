@@ -1,4 +1,7 @@
 package umc8.spring.repository;
 
-public interface FoodCategoryRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import umc8.spring.domain.FoodCategory;
+
+public interface FoodCategoryRepository extends JpaRepository<FoodCategory, Long> {
 }
