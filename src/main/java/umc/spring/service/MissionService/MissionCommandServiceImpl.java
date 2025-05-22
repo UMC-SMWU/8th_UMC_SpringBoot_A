@@ -14,7 +14,6 @@ import umc.spring.domain.mapping.MemberMission;
 import umc.spring.repository.MemberRepository;
 import umc.spring.repository.MissionRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
-import umc.spring.web.dto.member.MemberRequestDTO;
 import umc.spring.web.dto.mission.MissionRequestDTO;
 
 import static umc.spring.apiPayload.code.status.ErrorStatus.*;
@@ -39,7 +38,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         return mission;
     }
 
-    public Mission addMemberMission(MissionRequestDTO.MemberMissionDTO requestDTO){
+    public Mission addMemberMission(MissionRequestDTO.MemberMissionDTO requestDTO) {
         Mission mission = missionRepository.findById(requestDTO.getMemberId())
                 .orElseThrow(() -> new MissionHandler(MISSION_NOT_FOUND));
         Member member = memberRepository.findById(requestDTO.getMemberId())
@@ -50,6 +49,5 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         memberRepository.save(member);
         return mission;
     }
-
 
 }

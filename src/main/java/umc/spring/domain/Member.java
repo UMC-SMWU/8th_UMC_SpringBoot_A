@@ -75,4 +75,10 @@ public class Member extends BaseEntity {
         this.point = point;
     }
 
+    public void addMemberMission(MemberMission memberMission){
+        memberMissions.add(memberMission);
+        memberMission.setMember(this);
+    }
+
+
 }
