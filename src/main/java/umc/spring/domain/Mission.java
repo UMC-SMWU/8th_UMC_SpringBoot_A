@@ -25,6 +25,7 @@ public class Mission extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
+    @Setter
     private Store store;
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
@@ -36,6 +37,11 @@ public class Mission extends BaseEntity {
         this.reward = reward;
         this.deadLine = deadLine;
         this.missionSpec = missionSpec;
+    }
+
+    public void addMemberMission(MemberMission memberMission){
+        memberMissionsList.add(memberMission);
+        memberMission.setMission(this);
     }
 
 }

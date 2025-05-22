@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.domain.Store;
 import umc.spring.repository.StoreRepository.StoreRepository;
+import umc.spring.web.dto.store.StoreRequestDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,5 @@ public class StoreQueryServiceImpl implements StoreQueryService {
         filteredStores.forEach(store -> System.out.println("Store: " + store));
 
         return filteredStores;
-
     }
 }

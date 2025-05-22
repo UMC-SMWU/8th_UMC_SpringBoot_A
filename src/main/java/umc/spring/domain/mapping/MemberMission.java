@@ -20,9 +20,18 @@ public class MemberMission extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MissionStatus status;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private Member member;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private Mission mission;
+
+//
+//    public MemberMission(MissionStatus status) {
+//        this.status = status;
+//    }
 }

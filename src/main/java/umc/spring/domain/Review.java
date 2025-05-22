@@ -23,6 +23,7 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
@@ -35,5 +36,12 @@ public class Review extends BaseEntity {
         this.score = score;
         this.member = member;
         this.store = store;
+    }
+
+    public void addReviewImage(List<ReviewImage> reviewImage) {
+        for (ReviewImage image : reviewImage) {
+            image.setReview(this);
+        }
+        this.reviewImages.addAll(reviewImage);
     }
 }
