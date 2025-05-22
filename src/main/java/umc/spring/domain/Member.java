@@ -2,6 +2,9 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
 import umc.spring.domain.enums.MemberStatus;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
 
@@ -45,9 +50,10 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 50)
+//    @Column(nullable = false, length = 50)
     private String email;
 
+    @ColumnDefault("0")
     private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -62,17 +68,40 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberPrefer> memberPrefers = new ArrayList<>();
 
-    private Member(String name, String address, String specAddress, String gender, String socialType, String status, LocalDate inactiveDate,
+    @Builder
+    private Member(String name, String address, String specAddress, Gender gender, String socialType, String status, LocalDate inactiveDate,
                    String email, Integer point){
         this.name = name;
         this.address = address;
         this.specAddress = specAddress;
-        this.gender = Gender.valueOf(gender);
-        this.socialType = SocialType.valueOf(socialType);
-        this.status = MemberStatus.valueOf(status);
+        this.gender = gender;
+//        this.socialType = SocialType.valueOf(socialType);
+//        this.status = MemberStatus.valueOf(status);
         this.inactiveDate = inactiveDate;
         this.email = email;
         this.point = point;
+    }
+
+    public void addMemberPrefer(MemberPrefer memberPrefer){
+        memberPrefer.setMember(this);
+        this.memberPrefers.add(memberPrefer);
+    }
+
+    public void addMemberPrefers(List<MemberPrefer> memberPrefers){
+        for (MemberPrefer memberPrefer : memberPrefers) {
+            memberPrefer.setMember(this);
+        }
+        this.memberPrefers.addAll(memberPrefers);
+    }
+
+    public void removeMemberPrefer(MemberPrefer memberPrefer){
+        memberPrefer.setMember(null);
+        this.memberPrefers.remove(memberPrefer);
+    }
+
+    public void addMemberMission(MemberMission memberMission){
+        memberMissions.add(memberMission);
+        memberMission.setMember(this);
     }
 
 }
