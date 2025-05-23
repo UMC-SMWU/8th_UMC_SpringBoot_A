@@ -1,4 +1,4 @@
-package umc8.spring.web.dto;
+package umc8.spring.web.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

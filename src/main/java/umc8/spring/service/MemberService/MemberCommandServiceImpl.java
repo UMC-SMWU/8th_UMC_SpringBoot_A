@@ -12,7 +12,7 @@ import umc8.spring.domain.Member;
 import umc8.spring.domain.mapping.MemberPrefer;
 import umc8.spring.repository.FoodCategoryRepository;
 import umc8.spring.repository.MemberRepository;
-import umc8.spring.web.dto.MemberRequestDTO;
+import umc8.spring.web.dto.request.MemberRequestDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
