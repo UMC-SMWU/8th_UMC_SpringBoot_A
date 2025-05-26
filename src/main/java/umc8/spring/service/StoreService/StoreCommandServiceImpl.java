@@ -3,6 +3,11 @@ package umc8.spring.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc8.spring.apiPayload.code.status.ErrorStatus;
+import umc8.spring.apiPayload.exception.handler.MemberHandler;
+import umc8.spring.apiPayload.exception.handler.MissionHandler;
+import umc8.spring.apiPayload.exception.handler.RegionHandler;
+import umc8.spring.apiPayload.exception.handler.StoreHandler;
 import umc8.spring.domain.*;
 import umc8.spring.domain.enums.MissionStatus;
 import umc8.spring.domain.mapping.MemberMission;
@@ -35,7 +40,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     @Override
     public StoreResponse createStore(Long regionId, StoreRequest request) {
         Region region = regionRepository.findById(regionId)
-                .orElseThrow(() -> new IllegalArgumentException("Region not found"));
+                .orElseThrow(() -> new RegionHandler(ErrorStatus.REGION_NOT_FOUND));
 
         Store store = Store.builder()
                 .name(request.getName())
@@ -50,9 +55,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     @Override
     public ReviewResponse addReview(Long storeId, ReviewRequest request) {
         Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new IllegalArgumentException("Store not found"));
+                .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
         Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         Review review = Review.builder()
                 .body(request.getBody())
@@ -67,7 +72,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     public MissionResponse addMission(Long storeId, MissionRequest request) {
 
         Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new IllegalArgumentException("Store not found"));
+                .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
 
         Mission mission = Mission.builder()
                 .store(store)
@@ -83,11 +88,11 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     public MemberMissionResponse challengeMission(Long storeId, Long missionId, Long memberId) {
 
         Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new IllegalArgumentException("Store not found"));
+                .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
         Mission mission = missionRepository.findById(missionId)
-                .orElseThrow(() -> new IllegalArgumentException("Mission not found"));
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         MemberMission memberMission = MemberMission.builder()
                 .member(member)
