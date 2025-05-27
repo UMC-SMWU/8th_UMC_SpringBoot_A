@@ -23,7 +23,6 @@ public class MissionStatusValidator implements ConstraintValidator<NotChallengin
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(ErrorStatus.MISSION_NOT_FOUND.toString()).addConstraintViolation();
         }
-
         return isValid;
     }
 }

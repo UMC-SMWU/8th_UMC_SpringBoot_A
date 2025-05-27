@@ -2,6 +2,8 @@ package umc.spring.service.MissionService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import umc.spring.apiPayload.exception.handler.MemberHandler;
 import umc.spring.apiPayload.exception.handler.MissionHandler;
@@ -11,6 +13,7 @@ import umc.spring.domain.Member;
 import umc.spring.domain.Mission;
 import umc.spring.domain.Store;
 import umc.spring.domain.mapping.MemberMission;
+import umc.spring.repository.MemberMissionRepository;
 import umc.spring.repository.MemberRepository;
 import umc.spring.repository.MissionRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
@@ -27,6 +30,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
     private final MissionRepository missionRepository;
+    private final MemberMissionRepository memberMissionRepository;
 
 
     @Override
@@ -48,6 +52,17 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         mission.addMemberMission(memberMission);
         memberRepository.save(member);
         return mission;
+    }
+
+    public Page<Mission> changeStatusToDone(Long memberId, Long missionId, Integer page){
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberHandler(MEMBER_NOT_FOUND));
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new MissionHandler(MISSION_NOT_FOUND));
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        Page<MemberMission> challengingMissions = memberMissionRepository.findChallengingMissions(member, mission, pageRequest);
+        challengingMissions.forEach(MemberMission::changeStatusToComplete);
+        Page<Mission> missions = challengingMissions.map(MemberMission::getMission);
     }
 
 }
