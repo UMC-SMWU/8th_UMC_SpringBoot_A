@@ -62,7 +62,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         PageRequest pageRequest = PageRequest.of(page, 10);
         Page<MemberMission> challengingMissions = memberMissionRepository.findChallengingMissions(member, mission, pageRequest);
         challengingMissions.forEach(MemberMission::changeStatusToComplete);
-        Page<Mission> missions = challengingMissions.map(MemberMission::getMission);
+        return challengingMissions.map(MemberMission::getMission);
     }
 
 }
