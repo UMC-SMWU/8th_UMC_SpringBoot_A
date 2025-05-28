@@ -38,7 +38,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final MemberMissionRepository memberMissionRepository;
 
     @Override
-    public StoreResponse createStore(Long regionId, StoreRequest request) {
+    public StoreResponse.StoreResponseDto createStore(Long regionId, StoreRequest request) {
         Region region = regionRepository.findById(regionId)
                 .orElseThrow(() -> new RegionHandler(ErrorStatus.REGION_NOT_FOUND));
 
