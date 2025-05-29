@@ -7,14 +7,16 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
 
+    @Bean
     public OpenAPI UMCstudyAPI(){
         Info info = new Info()
-                .title("UMC Server WorkBook APi")
+                .title("UMC Server WorkBook API")
                 .description("UMC Server Workbook API 명세서")
                 .version("1.0.0");
 

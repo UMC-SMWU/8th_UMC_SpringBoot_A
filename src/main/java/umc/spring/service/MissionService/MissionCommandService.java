@@ -7,5 +7,5 @@ import umc.spring.web.dto.mission.MissionRequestDTO;
 public interface MissionCommandService {
     public Mission registerMission(MissionRequestDTO.MissionRegisterDTO requestDTO);
     public Mission addMemberMission(MissionRequestDTO.MemberMissionDTO requestDTO);
-    public Page<Mission> changeStatusToDone(Long memberId, Long missionId, Integer page);
+    public Page<Mission> changeStatusToDone(String email, Long missionId, Integer page);
 }

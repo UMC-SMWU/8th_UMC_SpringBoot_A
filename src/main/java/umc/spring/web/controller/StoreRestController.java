@@ -61,7 +61,8 @@ public class StoreRestController {
     }
 
     @GetMapping("/{storeId}/reviews")
-    @Operation(summary = "특정 가게의 리뷰 목록 조회 API", description = "")
+    @Operation(summary = "특정 가게의 리뷰 목록 조회 API"
+            , description = "특정 가게의 리뷰들의 목록을 조회하는 API이며, 페이징을 포함합니다. page 번호를 주세요")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!", content = @Content(schema  = @Schema(implementation = ApiResponse.class))),
@@ -78,15 +79,11 @@ public class StoreRestController {
         return ApiResponse.onSuccess(ReviewConverter.reviewPreviewListDTO(reviews));
     }
 
-    // 원래 이렇게 memberId받으면 안되는데 일단 없으니까..!
-    @GetMapping("/reviews/me")
-    public ApiResponse<ReviewResponseDTO.ReviewPreviewListDTO> getMemberReviews(Long memberId, Integer page){
-        Page<Review> reviews = reviewCommandService.getMemberReviews(memberId, page);
-        return ApiResponse.onSuccess(ReviewConverter.reviewPreviewListDTO(reviews));
-    }
-
-
-    @GetMapping("/{storeId}")
+    @GetMapping("/{storeId}/missions")
+    @Operation(summary = "가게의 미션들 조회", description = "가게에 해당하는 미션들을 조회하는 API이며, 페이징을 포함합니다. page 번호를 주세요")
+    @Parameters({
+            @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
+    })
     public ApiResponse<MissionResponseDTO.MissionDTOs> getMissionsByStore(
             @PathVariable("storeId")Long storeId
             , @RequestParam("page") Integer page){

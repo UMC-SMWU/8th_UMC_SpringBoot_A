@@ -39,9 +39,10 @@ public enum ErrorStatus implements BaseErrorCode {
     MISSING_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "AUTH003", "액세스 토큰이 없습니다."),
     EXPIRED_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "AUTH004",  "액세스 토큰이 만료되었습니다."),
     MALFORMED_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "AUTH006", "액세스 토큰 모양이 이상합니다."),
-//    MAL
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "AUTH007", "토큰이 유효하지 않습니다"),
 
     // 액세스 관련 에러
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "AUTH008", "비밀번호가 유효하지 않습니다"),
 
 
 

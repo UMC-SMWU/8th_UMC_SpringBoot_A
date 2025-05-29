@@ -38,11 +38,11 @@ public class MissionQueryServiceImpl implements MissionQueryService {
     }
 
     @Override
-    public Page<Mission> getMissionsByStatus(Long memberId, String missionStatus, Integer page) {
-        Member member = memberRepository.findById(memberId)
+    public Page<Mission> getMissionsByStatus(String email, String missionStatus, Integer page) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberHandler(MEMBER_NOT_FOUND));
         PageRequest pageRequest = PageRequest.of(page, 10);
-        return memberMissionRepository.findAllByMemberAndMissionStatus(member, missionStatus, pageRequest)
+        return memberMissionRepository.findAllByMemberAndStatus(member, missionStatus, pageRequest)
                 .map(MemberMission::getMission);
 
     }

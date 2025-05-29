@@ -54,8 +54,8 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         return mission;
     }
 
-    public Page<Mission> changeStatusToDone(Long memberId, Long missionId, Integer page){
-        Member member = memberRepository.findById(memberId)
+    public Page<Mission> changeStatusToDone(String email, Long missionId, Integer page){
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberHandler(MEMBER_NOT_FOUND));
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new MissionHandler(MISSION_NOT_FOUND));

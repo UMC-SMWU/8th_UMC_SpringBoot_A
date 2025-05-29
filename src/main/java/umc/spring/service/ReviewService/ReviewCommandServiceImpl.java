@@ -43,8 +43,8 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     }
 
     @Override
-    public Page<Review> getMemberReviews(Long memberId, Integer page){
-        Member member = memberRepository.findById(memberId)
+    public Page<Review> getMemberReviews(String email, Integer page){
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
         PageRequest pageRequest = PageRequest.of(page, 10);
         return reviewRepository.findAllByMember(member, pageRequest);
