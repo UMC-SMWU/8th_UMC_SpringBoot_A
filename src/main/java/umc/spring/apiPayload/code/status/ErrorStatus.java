@@ -33,6 +33,18 @@ public enum ErrorStatus implements BaseErrorCode {
     // 미션 관련 에러
     MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4001", "미션이 없습니다."),
 
+    // AUTH003 - 액세스 토큰을 주쇼
+    // AUTH004 - 액세스 토큰 만료
+    // AUTH006 - 액세스 토큰 모양이 이상하다
+    MISSING_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "AUTH003", "액세스 토큰이 없습니다."),
+    EXPIRED_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "AUTH004",  "액세스 토큰이 만료되었습니다."),
+    MALFORMED_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "AUTH006", "액세스 토큰 모양이 이상합니다."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "AUTH007", "토큰이 유효하지 않습니다"),
+
+    // 액세스 관련 에러
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "AUTH008", "비밀번호가 유효하지 않습니다"),
+
+
 
 
     // 예시

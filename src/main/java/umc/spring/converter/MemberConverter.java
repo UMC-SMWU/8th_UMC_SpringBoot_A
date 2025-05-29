@@ -7,6 +7,7 @@ import umc.spring.web.dto.member.MemberRequestDTO;
 import umc.spring.web.dto.member.MemberResponseDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 public class MemberConverter {
@@ -34,10 +35,29 @@ public class MemberConverter {
         }
 
         return Member.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .role(request.getRole())
                 .address(request.getAddress())
                 .specAddress(request.getSpecAddress())
                 .gender(gender)
                 .name(request.getName())
                 .build();
     }
+
+    public static MemberResponseDTO.LoginResultDTO toLoginResultDTO(Long memberId, String accessToken){
+        return MemberResponseDTO.LoginResultDTO.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static MemberResponseDTO.MemberInfoDTO toMemberInfoDTO(Member member){
+        return MemberResponseDTO.MemberInfoDTO.builder()
+                .email(member.getEmail())
+                .name(member.getName())
+                .gender(member.getGender().name())
+                .build();
+    }
+
 }

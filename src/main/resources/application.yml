@@ -18,3 +18,9 @@ spring:
           auto: create
         default_batch_fetch_size: 1000
 
+jwt:
+  token:
+    secretKey: ${JWT_SECRET}
+    expiration:
+      access: ${JWT_ACCESS_TOKEN_VALIDITY_IN_MILLISECONDS}
+
