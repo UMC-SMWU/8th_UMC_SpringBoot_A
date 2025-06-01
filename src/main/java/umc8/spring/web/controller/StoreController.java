@@ -33,13 +33,14 @@ public class StoreController {
     private final StoreCommandServiceImpl storeCommandService;
 
     @PostMapping("/{regionId}")
+    @Operation(summary = "지역에 가게 추가 API", description = "지역 아이디와 가게 정보를 보내면 가게 추가")
     public ApiResponse<StoreResponse.StoreResponseDto> addStore(@PathVariable("regionId") Long regionId,
                                                                 @RequestBody StoreRequest request) {
         return ApiResponse.onSuccess(storeCommandService.createStore(regionId, request));
     }
 
     @PostMapping("/{storeId}/reviews")
-    public ApiResponse<ReviewResponse> addReview(@PathVariable("storeId") Long storeId,
+    public ApiResponse<ReviewResponse.ReviewResponseDto> addReview(@PathVariable("storeId") Long storeId,
                                                  @RequestBody ReviewRequest request) {
         return ApiResponse.onSuccess(storeCommandService.addReview(storeId, request));
     }
@@ -69,8 +70,15 @@ public class StoreController {
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
     public ApiResponse<StoreResponse.ReviewPreviewListDto> getReviewList(@PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page) {
-        Page<Review> reviewList = storeQueryService.getReviewList(storeId, page);
-        return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviewList));
+        Page<Review> reviews = storeQueryService.getReviewList(storeId, page);
+        return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviews));
+    }
+
+    @GetMapping("/{storeId}/missions")
+    @Operation(summary = "특정 가게의 미션 목록 조회 API", description = "가게 ID로 해당 가게의 미션 목록 페이징 조회")
+    public ApiResponse<MissionResponse> getStoreMissions() {
+
+        return null;
     }
 
 }

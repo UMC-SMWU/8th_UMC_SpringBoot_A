@@ -23,6 +23,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
     @Override
     public Optional<Store> findStore(Long id) {
+
         return storeRepository.findById(id);
     }
 
@@ -37,8 +38,6 @@ public class StoreQueryServiceImpl implements StoreQueryService {
     public Page<Review> getReviewList(Long storeId, Integer page) {
 
         Store store = storeRepository.findById(storeId).get();
-
-        Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
-        return StorePage;
+        return reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
     }
 }

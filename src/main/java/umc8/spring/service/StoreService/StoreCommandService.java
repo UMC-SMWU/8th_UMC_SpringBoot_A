@@ -10,7 +10,7 @@ import umc8.spring.web.dto.response.StoreResponse;
 
 public interface StoreCommandService {
     StoreResponse.StoreResponseDto createStore(Long regionId, StoreRequest request);
-    ReviewResponse addReview(Long storeId, ReviewRequest request);
+    ReviewResponse.ReviewResponseDto addReview(Long storeId, ReviewRequest request);
     MissionResponse addMission(Long storeId, MissionRequest request);
     MemberMissionResponse challengeMission(Long storeId, Long missionId, Long memberId);
 }

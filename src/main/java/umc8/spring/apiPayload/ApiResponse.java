@@ -3,11 +3,13 @@ package umc8.spring.apiPayload;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import umc8.spring.apiPayload.code.BaseCode;
 import umc8.spring.apiPayload.code.status.SuccessStatus;
 
+@Schema(name = "ApiResponse", description = "공통 응답 구조")
 @Getter
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
@@ -22,7 +24,6 @@ public class ApiResponse<T> {
 
 
     // 성공한 경우 응답 생성
-
     public static <T> ApiResponse<T> onSuccess(T result){
         return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
     }

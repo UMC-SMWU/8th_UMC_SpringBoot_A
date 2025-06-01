@@ -8,6 +8,7 @@ import umc8.spring.apiPayload.exception.handler.MemberHandler;
 import umc8.spring.apiPayload.exception.handler.MissionHandler;
 import umc8.spring.apiPayload.exception.handler.RegionHandler;
 import umc8.spring.apiPayload.exception.handler.StoreHandler;
+import umc8.spring.converter.ReviewConverter;
 import umc8.spring.domain.*;
 import umc8.spring.domain.enums.MissionStatus;
 import umc8.spring.domain.mapping.MemberMission;
@@ -53,7 +54,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     }
 
     @Override
-    public ReviewResponse addReview(Long storeId, ReviewRequest request) {
+    public ReviewResponse.ReviewResponseDto addReview(Long storeId, ReviewRequest request) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
         Member member = memberRepository.findById(request.getMemberId())
