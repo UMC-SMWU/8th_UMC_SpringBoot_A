@@ -21,10 +21,7 @@ import umc8.spring.validator.annotation.ValidPage;
 import umc8.spring.web.dto.request.MissionRequest;
 import umc8.spring.web.dto.request.ReviewRequest;
 import umc8.spring.web.dto.request.StoreRequest;
-import umc8.spring.web.dto.response.MemberMissionResponse;
-import umc8.spring.web.dto.response.MissionResponse;
-import umc8.spring.web.dto.response.ReviewResponse;
-import umc8.spring.web.dto.response.StoreResponse;
+import umc8.spring.web.dto.response.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -79,7 +76,7 @@ public class StoreController {
 
     @GetMapping("/{storeId}/missions")
     @Operation(summary = "특정 가게의 미션 목록 조회 API", description = "가게 ID로 해당 가게의 미션 목록 페이징 조회")
-    public ApiResponse<MissionResponse> getStoreMissions(@PathVariable(name = "storeId") Long storeId, @ValidPage @RequestParam(name = "page") Integer page) {
+    public ApiResponse<StoreMissionResponse.StoreMissionListDto> getStoreMissions(@PathVariable(name = "storeId") Long storeId, @ValidPage @RequestParam(name = "page") Integer page) {
         Page<Mission> missions = storeQueryService.getMissionList(storeId, page);
         return ApiResponse.onSuccess(StoreMissionConverter.toMissionListDto(missions));
     }
