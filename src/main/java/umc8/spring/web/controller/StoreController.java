@@ -12,9 +12,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc8.spring.apiPayload.ApiResponse;
 import umc8.spring.converter.StoreConverter;
+import umc8.spring.converter.StoreMissionConverter;
+import umc8.spring.domain.Mission;
 import umc8.spring.domain.Review;
 import umc8.spring.service.StoreService.StoreCommandServiceImpl;
 import umc8.spring.service.StoreService.StoreQueryServiceImpl;
+import umc8.spring.validator.annotation.ValidPage;
 import umc8.spring.web.dto.request.MissionRequest;
 import umc8.spring.web.dto.request.ReviewRequest;
 import umc8.spring.web.dto.request.StoreRequest;
@@ -69,16 +72,16 @@ public class StoreController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<StoreResponse.ReviewPreviewListDto> getReviewList(@PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page) {
+    public ApiResponse<StoreResponse.ReviewPreviewListDto> getReviewList(@PathVariable(name = "storeId") Long storeId, @ValidPage @RequestParam(name = "page") Integer page) {
         Page<Review> reviews = storeQueryService.getReviewList(storeId, page);
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviews));
     }
 
     @GetMapping("/{storeId}/missions")
     @Operation(summary = "특정 가게의 미션 목록 조회 API", description = "가게 ID로 해당 가게의 미션 목록 페이징 조회")
-    public ApiResponse<MissionResponse> getStoreMissions() {
-
-        return null;
+    public ApiResponse<MissionResponse> getStoreMissions(@PathVariable(name = "storeId") Long storeId, @ValidPage @RequestParam(name = "page") Integer page) {
+        Page<Mission> missions = storeQueryService.getMissionList(storeId, page);
+        return ApiResponse.onSuccess(StoreMissionConverter.toMissionListDto(missions));
     }
 
 }

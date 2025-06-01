@@ -12,6 +12,7 @@ import umc8.spring.domain.Member;
 import umc8.spring.domain.Review;
 import umc8.spring.service.MemberService.MemberCommandService;
 import umc8.spring.service.MemberService.MemberQueryServiceImpl;
+import umc8.spring.validator.annotation.ValidPage;
 import umc8.spring.web.dto.request.MemberRequestDTO;
 import umc8.spring.web.dto.response.MemberResponse;
 import umc8.spring.web.dto.response.MissionResponse;
@@ -35,7 +36,7 @@ public class MemberController {
     @Operation(summary = "내가 작성한 리뷰 목록 조회 API", description = "회원 ID로 내가 작성한 리뷰 페이징 조회")
     public ApiResponse<ReviewResponse.MyReviewListDto> getMyReviews(
             @PathVariable(name = "memberId") Long memberId,
-            @RequestParam(name = "page") Integer page) {
+            @ValidPage @RequestParam(name = "page") Integer page) {
         Page<Review> reviews = memberQueryServiceImpl.getMyReviews(memberId, page);
         return ApiResponse.onSuccess(ReviewConverter.myReviewListDto(reviews));
     }
