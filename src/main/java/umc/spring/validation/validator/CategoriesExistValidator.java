@@ -23,7 +23,6 @@ public class CategoriesExistValidator implements ConstraintValidator<ExistCatego
 
     @Override
     public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        System.out.println("CategoriesExistValidator");
         boolean isValid = values.stream()
                 .allMatch(value -> foodCategoryRepository.existsById(value));
 
