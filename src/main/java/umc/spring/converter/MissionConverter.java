@@ -3,6 +3,7 @@ package umc.spring.converter;
 import org.springframework.data.domain.Page;
 import umc.spring.domain.Mission;
 import umc.spring.domain.Store;
+import umc.spring.domain.mapping.MemberMission;
 import umc.spring.web.dto.mission.MissionRequestDto;
 import umc.spring.web.dto.mission.MissionResponseDto;
 
@@ -47,6 +48,28 @@ public class MissionConverter {
                 .totalElements(missionList.getTotalElements())
                 .listSize(missionPreViewDtoList.size())
                 .missionList(missionPreViewDtoList)
+                .build();
+    }
+
+    public static MissionResponseDto.MissionPreViewDto memberMissionPreViewDto(MemberMission memberMission) {
+        return MissionResponseDto.MissionPreViewDto.builder()
+                .storeName(memberMission.getMission().getStore().getName())
+                .missionSpec(memberMission.getMission().getMissionSpec())
+                .reward(memberMission.getMission().getReward())
+                .build();
+    }
+
+    public static MissionResponseDto.MissionPreViewListDto memberMissionPreViewListDto(Page<MemberMission> memberMissionList) {
+        List<MissionResponseDto.MissionPreViewDto> memberMissionPreViewDtoList = memberMissionList.stream()
+                .map(MissionConverter::memberMissionPreViewDto).collect(Collectors.toList());
+
+        return MissionResponseDto.MissionPreViewListDto.builder()
+                .isLast(memberMissionList.isLast())
+                .isFirst(memberMissionList.isFirst())
+                .totalPage(memberMissionList.getTotalPages())
+                .totalElements(memberMissionList.getTotalElements())
+                .listSize(memberMissionPreViewDtoList.size())
+                .missionList(memberMissionPreViewDtoList)
                 .build();
     }
 }
