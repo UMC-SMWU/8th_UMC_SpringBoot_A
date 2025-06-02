@@ -42,7 +42,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreHandler(STORE_NOT_FOUND));
 
-        Page<Review> storePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
+        Page<Review> storePage = reviewRepository.findAllByStore(store, PageRequest.of(page-1, 10));
         return storePage;
     }
 

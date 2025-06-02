@@ -22,6 +22,7 @@ import umc.spring.service.MissionService.MissionQueryService;
 import umc.spring.service.ReviewService.ReviewCommandService;
 import umc.spring.service.StoreService.StoreCommandService;
 import umc.spring.service.StoreService.StoreQueryServiceImpl;
+import umc.spring.validation.annotation.ValidPageIndex;
 import umc.spring.web.dto.mission.MissionRequestDTO;
 import umc.spring.web.dto.mission.MissionResponseDTO;
 import umc.spring.web.dto.review.ReviewRequestDTO;
@@ -74,7 +75,7 @@ public class StoreRestController {
     })
     public ApiResponse<ReviewResponseDTO.ReviewPreviewListDTO> getReviewListByStore(
             @PathVariable(name = "storeId") Long storeId
-            , @RequestParam(name = "page") Integer page){
+            , @RequestParam(name = "page") @ValidPageIndex Integer page){
         Page<Review> reviews = storeQueryServiceImpl.getReviewsByStore(storeId, page);
         return ApiResponse.onSuccess(ReviewConverter.reviewPreviewListDTO(reviews));
     }
@@ -86,7 +87,7 @@ public class StoreRestController {
     })
     public ApiResponse<MissionResponseDTO.MissionDTOs> getMissionsByStore(
             @PathVariable("storeId")Long storeId
-            , @RequestParam("page") Integer page){
+            , @RequestParam("page") @ValidPageIndex Integer page){
         Page<Mission> missionsByStore = missionQueryService.getMissionsByStore(storeId, page);
         return ApiResponse.onSuccess(MissionConverter.toMissionDTOs(missionsByStore));
     }

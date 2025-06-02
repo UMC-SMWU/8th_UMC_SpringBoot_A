@@ -46,7 +46,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     public Page<Review> getMemberReviews(String email, Integer page){
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page-1, 10);
         return reviewRepository.findAllByMember(member, pageRequest);
     }
 }
