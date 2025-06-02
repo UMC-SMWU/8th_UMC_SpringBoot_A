@@ -12,16 +12,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc8.spring.apiPayload.ApiResponse;
 import umc8.spring.converter.StoreConverter;
+import umc8.spring.converter.StoreMissionConverter;
+import umc8.spring.domain.Mission;
 import umc8.spring.domain.Review;
 import umc8.spring.service.StoreService.StoreCommandServiceImpl;
 import umc8.spring.service.StoreService.StoreQueryServiceImpl;
+import umc8.spring.validator.annotation.ValidPage;
 import umc8.spring.web.dto.request.MissionRequest;
 import umc8.spring.web.dto.request.ReviewRequest;
 import umc8.spring.web.dto.request.StoreRequest;
-import umc8.spring.web.dto.response.MemberMissionResponse;
-import umc8.spring.web.dto.response.MissionResponse;
-import umc8.spring.web.dto.response.ReviewResponse;
-import umc8.spring.web.dto.response.StoreResponse;
+import umc8.spring.web.dto.response.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,13 +33,14 @@ public class StoreController {
     private final StoreCommandServiceImpl storeCommandService;
 
     @PostMapping("/{regionId}")
+    @Operation(summary = "지역에 가게 추가 API", description = "지역 아이디와 가게 정보를 보내면 가게 추가")
     public ApiResponse<StoreResponse.StoreResponseDto> addStore(@PathVariable("regionId") Long regionId,
                                                                 @RequestBody StoreRequest request) {
         return ApiResponse.onSuccess(storeCommandService.createStore(regionId, request));
     }
 
     @PostMapping("/{storeId}/reviews")
-    public ApiResponse<ReviewResponse> addReview(@PathVariable("storeId") Long storeId,
+    public ApiResponse<ReviewResponse.ReviewResponseDto> addReview(@PathVariable("storeId") Long storeId,
                                                  @RequestBody ReviewRequest request) {
         return ApiResponse.onSuccess(storeCommandService.addReview(storeId, request));
     }
@@ -68,9 +69,16 @@ public class StoreController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<StoreResponse.ReviewPreviewListDto> getReviewList(@PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page) {
-        Page<Review> reviewList = storeQueryService.getReviewList(storeId, page);
-        return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviewList));
+    public ApiResponse<StoreResponse.ReviewPreviewListDto> getReviewList(@PathVariable(name = "storeId") Long storeId, @ValidPage @RequestParam(name = "page") Integer page) {
+        Page<Review> reviews = storeQueryService.getReviewList(storeId, page);
+        return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviews));
+    }
+
+    @GetMapping("/{storeId}/missions")
+    @Operation(summary = "특정 가게의 미션 목록 조회 API", description = "가게 ID로 해당 가게의 미션 목록 페이징 조회")
+    public ApiResponse<StoreMissionResponse.StoreMissionListDto> getStoreMissions(@PathVariable(name = "storeId") Long storeId, @ValidPage @RequestParam(name = "page") Integer page) {
+        Page<Mission> missions = storeQueryService.getMissionList(storeId, page);
+        return ApiResponse.onSuccess(StoreMissionConverter.toMissionListDto(missions));
     }
 
 }

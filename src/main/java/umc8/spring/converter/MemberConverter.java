@@ -3,15 +3,15 @@ package umc8.spring.converter;
 import umc8.spring.domain.Member;
 import umc8.spring.domain.enums.Gender;
 import umc8.spring.web.dto.request.MemberRequestDTO;
-import umc8.spring.web.dto.response.MemberResponseDTO;
+import umc8.spring.web.dto.response.MemberResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MemberConverter {
 
-    public static MemberResponseDTO.JoinResultDto toJoinResultDTO(Member member) {
-        return MemberResponseDTO.JoinResultDto.builder()
+    public static MemberResponse.JoinResultDto toJoinResultDTO(Member member) {
+        return MemberResponse.JoinResultDto.builder()
                 .memberId(member.getId())
                 .createdAt(LocalDateTime.now())
                 .build();

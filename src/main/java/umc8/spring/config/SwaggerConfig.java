@@ -3,9 +3,15 @@ package umc8.spring.config;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,5 +42,25 @@ public class SwaggerConfig {
                 .info(info)
                 .addSecurityItem(securityRequirement)
                 .components(components);
+    }
+
+    @Bean
+    public OperationCustomizer globalResponseCustomizer() {
+        return (operation, handlerMethod) -> {
+            ApiResponses responses = operation.getResponses();
+            responses.addApiResponse("AUTH003", new ApiResponse()
+                    .description("access 토큰을 주세요")
+                    .content(new Content().addMediaType("application/json",
+                            new MediaType().schema(new Schema<>().$ref("#/components/schemas/ApiResponse")))));
+            responses.addApiResponse("AUTH004", new ApiResponse()
+                    .description("access 토큰 만료")
+                    .content(new Content().addMediaType("application/json",
+                            new MediaType().schema(new Schema<>().$ref("#/components/schemas/ApiResponse")))));
+            responses.addApiResponse("AUTH006", new ApiResponse()
+                    .description("access 토큰 모양이 이상함")
+                    .content(new Content().addMediaType("application/json",
+                            new MediaType().schema(new Schema<>().$ref("#/components/schemas/ApiResponse")))));
+            return operation;
+        };
     }
 }
