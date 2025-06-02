@@ -2,6 +2,7 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import umc.spring.domain.base.BaseEntity;
 
 @Entity
@@ -25,6 +26,7 @@ public class Store extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String address;
 
+    @ColumnDefault("0")
     private Float score;
 
     @Override

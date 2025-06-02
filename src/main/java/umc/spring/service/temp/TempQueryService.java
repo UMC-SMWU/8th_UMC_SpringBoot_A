@@ -1,4 +1,4 @@
-package umc.spring.service.tempService;
+package umc.spring.service.temp;
 
 public interface TempQueryService {
 

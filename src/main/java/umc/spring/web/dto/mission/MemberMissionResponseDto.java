@@ -1,21 +1,20 @@
 package umc.spring.web.dto.mission;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
-public class MissionResponseDto {
+public class MemberMissionResponseDto {
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CreateMissionDto{
+    public static class CreateMemberMissionDto {
+        Integer status;
+        Long memberMissionId;
         Long missionId;
-        String missionSpec;
-        Long storeId;
+        Long memberId;
     }
 }
