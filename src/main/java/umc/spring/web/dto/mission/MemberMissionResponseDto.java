@@ -15,7 +15,7 @@ public class MemberMissionResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CreateMemberMissionDto {
+    public static class MemberMissionDto {
         Integer status;
         Long memberMissionId;
         Long missionId;

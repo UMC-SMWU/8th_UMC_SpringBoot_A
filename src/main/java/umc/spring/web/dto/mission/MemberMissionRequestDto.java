@@ -14,4 +14,12 @@ public class MemberMissionRequestDto {
         @NotNull
         Long missionId;
     }
+
+    @Getter
+    public static class UpdateMemberMissionDto {
+        @NotNull
+        Long memberId;
+        @NotNull
+        Long missionId;
+    }
 }

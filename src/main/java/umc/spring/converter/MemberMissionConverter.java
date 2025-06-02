@@ -11,8 +11,8 @@ import umc.spring.web.dto.mission.MissionResponseDto;
 
 public class MemberMissionConverter {
 
-    public static MemberMissionResponseDto.CreateMemberMissionDto toCreateChallengingMission(MemberMission memberMission) {
-        return MemberMissionResponseDto.CreateMemberMissionDto.builder()
+    public static MemberMissionResponseDto.MemberMissionDto toResultMemberMission(MemberMission memberMission) {
+        return MemberMissionResponseDto.MemberMissionDto.builder()
                 .status(memberMission.getStatus().ordinal())
                 .memberMissionId(memberMission.getId())
                 .memberId(memberMission.getMember().getId())
@@ -20,7 +20,7 @@ public class MemberMissionConverter {
                 .build();
     }
 
-    public static MemberMission toMemberMission(MemberMissionRequestDto.CreateMemberMissionDto request, Member member, Mission mission) {
+    public static MemberMission toMemberMission(Member member, Mission mission) {
         return MemberMission.builder()
                 .status(MissionStatus.CHALLENGING)
                 .member(member)
