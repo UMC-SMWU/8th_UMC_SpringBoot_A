@@ -9,7 +9,7 @@ import umc.spring.validation.annotation.ExistStores;
 public class ReviewRequestDto {
 
     @Getter
-    public static class CreateDto{
+    public static class CreateReviewDto{
         @NotNull
         @NotBlank
         @Size(min = 1, max = 100)

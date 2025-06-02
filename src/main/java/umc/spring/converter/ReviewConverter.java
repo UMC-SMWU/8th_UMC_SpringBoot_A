@@ -16,7 +16,7 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static Review toReview(ReviewRequestDto.CreateDto request, Member member, Store store) {
+    public static Review toReview(ReviewRequestDto.CreateReviewDto request, Member member, Store store) {
         return Review.builder()
                 .body(request.getBody())
                 .score(request.getScore())

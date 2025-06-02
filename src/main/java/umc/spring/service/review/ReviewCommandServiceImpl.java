@@ -24,7 +24,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public Review createReview(ReviewRequestDto.CreateDto request) {
+    public Review createReview(ReviewRequestDto.CreateReviewDto request) {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 

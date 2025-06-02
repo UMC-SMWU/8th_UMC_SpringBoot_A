@@ -32,7 +32,7 @@ public class StoreRestController {
     }
 
     @PostMapping("/reviews")
-    public ApiResponse<ReviewResponseDto.CreateReviewDto> createReview(@RequestBody @Valid ReviewRequestDto.CreateDto createDto){
+    public ApiResponse<ReviewResponseDto.CreateReviewDto> createReview(@RequestBody @Valid ReviewRequestDto.CreateReviewDto createDto){
         Review review = reviewCommandService.createReview(createDto);
         return ApiResponse.onSuccess(ReviewConverter.toCreateDto(review));
     }
