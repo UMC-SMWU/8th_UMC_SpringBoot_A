@@ -7,7 +7,7 @@ import umc.spring.web.dto.mission.MissionResponseDto;
 
 public class MissionConverter {
 
-    public static MissionResponseDto.CreateMissionDto toCreateDto(Mission mission) {
+    public static MissionResponseDto.CreateMissionDto toCreateMissionDto(Mission mission) {
         return MissionResponseDto.CreateMissionDto.builder()
                 .missionId(mission.getId())
                 .missionSpec(mission.getMissionSpec())
