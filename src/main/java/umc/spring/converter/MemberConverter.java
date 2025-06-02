@@ -1,12 +1,17 @@
 package umc.spring.converter;
 
+import org.springframework.data.domain.Page;
 import umc.spring.domain.Member;
+import umc.spring.domain.Review;
 import umc.spring.domain.enums.Gender;
 import umc.spring.web.dto.member.MemberRequestDto;
 import umc.spring.web.dto.member.MemberResponseDto;
+import umc.spring.web.dto.review.ReviewResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MemberConverter {
 

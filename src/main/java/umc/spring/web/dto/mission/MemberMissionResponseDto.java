@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.spring.web.dto.review.ReviewResponseDto;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class MemberMissionResponseDto {
 
@@ -11,7 +15,7 @@ public class MemberMissionResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CreateMemberMissionDto {
+    public static class MemberMissionDto {
         Integer status;
         Long memberMissionId;
         Long missionId;

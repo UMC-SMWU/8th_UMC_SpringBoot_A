@@ -30,9 +30,13 @@ public enum ErrorStatus implements BaseErrorCode {
     // 미션 관련 에러
     MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4001", "해당 미션이 없습니다."),
     EXIST_CHALLENGE_MISSION(HttpStatus.BAD_REQUEST, "MISSION4002", "해당 미션은 이미 도전 중입니다."),
+    MEMBER_MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4003", "해당 미션이 없습니다."),
 
     // food 관련 에러
     FOOD_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "FOOD4001", "음식 카테고리를 찾을 수 없습니다."),
+
+    // 페이징 관련 에러
+    PAGE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지는 1 이상이어야 합니다."),
 
     // 예시,,,
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다.");
