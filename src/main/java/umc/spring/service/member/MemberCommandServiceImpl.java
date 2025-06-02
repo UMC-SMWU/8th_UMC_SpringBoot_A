@@ -1,4 +1,4 @@
-package umc.spring.service.memberService;
+package umc.spring.service.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import umc.spring.domain.Member;
 import umc.spring.domain.mapping.MemberPrefer;
 import umc.spring.repository.food.FoodCategoryRepository;
 import umc.spring.repository.member.MemberRepository;
-import umc.spring.web.dto.member.MemberRequestDTO;
+import umc.spring.web.dto.member.MemberRequestDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,12 +22,11 @@ import java.util.stream.Collectors;
 public class MemberCommandServiceImpl implements MemberCommandService {
 
     private final MemberRepository memberRepository;
-
     private final FoodCategoryRepository foodCategoryRepository;
 
     @Transactional
     @Override
-    public Member joinMember(MemberRequestDTO.JoinDto request) {
+    public Member joinMember(MemberRequestDto.JoinDto request) {
 
         Member newMember = MemberConverter.toMember(request);
         List<FoodCategory> foodCategoryList = request.getPreferCategory().stream()

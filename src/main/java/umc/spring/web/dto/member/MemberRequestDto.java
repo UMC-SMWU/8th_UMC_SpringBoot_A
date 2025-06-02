@@ -8,7 +8,7 @@ import umc.spring.validation.annotation.ExistCategories;
 
 import java.util.List;
 
-public class MemberRequestDTO {
+public class MemberRequestDto {
 
     @Getter
     public static class JoinDto{

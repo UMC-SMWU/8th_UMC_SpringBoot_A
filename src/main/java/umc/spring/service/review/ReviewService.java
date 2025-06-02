@@ -1,4 +1,4 @@
-package umc.spring.service.storeService;
+package umc.spring.service.review;
 
 
 import lombok.RequiredArgsConstructor;

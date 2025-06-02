@@ -1,27 +1,23 @@
 package umc.spring.converter;
 
-import umc.spring.domain.FoodCategory;
 import umc.spring.domain.Member;
 import umc.spring.domain.enums.Gender;
-import umc.spring.domain.mapping.MemberPrefer;
-import umc.spring.web.dto.member.MemberRequestDTO;
-import umc.spring.web.dto.member.MemberResponseDTO;
+import umc.spring.web.dto.member.MemberRequestDto;
+import umc.spring.web.dto.member.MemberResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MemberConverter {
 
-    public static MemberResponseDTO.JoinResultDTO toJoinResultDTO(Member member){
-        return MemberResponseDTO.JoinResultDTO.builder()
+    public static MemberResponseDto.JoinResultDTO toJoinResultDTO(Member member){
+        return MemberResponseDto.JoinResultDTO.builder()
                 .memberId(member.getId())
                 .createdAt(LocalDateTime.now())
                 .build();
     }
 
-    public static Member toMember(MemberRequestDTO.JoinDto request){
+    public static Member toMember(MemberRequestDto.JoinDto request){
 
         Gender gender = null;
 
