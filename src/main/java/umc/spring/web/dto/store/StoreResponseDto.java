@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class StoreResponseDto {
 
@@ -17,5 +19,29 @@ public class StoreResponseDto {
         Long storeId;
         String storeName;
         LocalDateTime createAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReviewPreViewListDto {
+        List<ReviewPreViewDto> reviewList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReviewPreViewDto {
+        String ownerNickname;
+        Float score;
+        String body;
+        LocalDate createdAt;
     }
 }
