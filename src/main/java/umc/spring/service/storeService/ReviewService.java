@@ -1,4 +1,4 @@
-package umc.spring.service;
+package umc.spring.service.storeService;
 
 
 import lombok.RequiredArgsConstructor;
@@ -10,8 +10,6 @@ import umc.spring.domain.Store;
 import umc.spring.repository.member.MemberRepository;
 import umc.spring.repository.review.ReviewRepository;
 import umc.spring.repository.store.StoreRepository;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
