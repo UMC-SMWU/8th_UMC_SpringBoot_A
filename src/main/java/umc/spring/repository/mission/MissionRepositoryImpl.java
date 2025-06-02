@@ -12,7 +12,7 @@ import umc.spring.domain.QRegion;
 import umc.spring.domain.QStore;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.QMemberMission;
-import umc.spring.web.dto.mission.MissionHomeDto;
+import umc.spring.web.dto.mission.MissionRequestDto;
 import umc.spring.web.dto.mission.MissionResponseDto;
 
 import java.time.LocalDate;
@@ -82,10 +82,10 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
     }
 
     @Override
-    public List<MissionHomeDto> findAvailableMissionsByRegion(String regionName, Long memberId, Long cursor) {
+    public List<MissionRequestDto> findAvailableMissionsByRegion(String regionName, Long memberId, Long cursor) {
         return jpaQueryFactory
                 .select(Projections.constructor(
-                        MissionHomeDto.class,
+                        MissionRequestDto.class,
                         mission.id,
                         store.name,
                         mission.reward,
