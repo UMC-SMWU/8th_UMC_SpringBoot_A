@@ -19,4 +19,28 @@ public class ReviewResponseDto {
         Long storeId;
         Long memberId;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReviewPreViewListDto {
+        List<ReviewPreViewDto> reviewList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReviewPreViewDto {
+        String ownerNickname;
+        Float score;
+        String body;
+        LocalDate createdAt;
+    }
 }

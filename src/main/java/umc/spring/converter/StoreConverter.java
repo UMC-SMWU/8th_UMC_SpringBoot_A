@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import umc.spring.domain.Region;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
+import umc.spring.web.dto.review.ReviewResponseDto;
 import umc.spring.web.dto.store.StoreRequestDto;
 import umc.spring.web.dto.store.StoreResponseDto;
 
@@ -28,8 +29,8 @@ public class StoreConverter {
                 .build();
     }
 
-    public static StoreResponseDto.ReviewPreViewDto reviewPreViewDto(Review review){
-        return StoreResponseDto.ReviewPreViewDto.builder()
+    public static ReviewResponseDto.ReviewPreViewDto reviewPreViewDto(Review review){
+        return ReviewResponseDto.ReviewPreViewDto.builder()
                 .ownerNickname(review.getMember().getName())
                 .score(review.getScore())
                 .createdAt(review.getCreatedAt().toLocalDate())
@@ -37,11 +38,11 @@ public class StoreConverter {
                 .build();
     }
 
-    public static StoreResponseDto.ReviewPreViewListDto reviewPreViewListDto(Page<Review> reviewList){
-        List<StoreResponseDto.ReviewPreViewDto> reviewPreViewDTOList = reviewList.stream()
+    public static ReviewResponseDto.ReviewPreViewListDto reviewPreViewListDto(Page<Review> reviewList){
+        List<ReviewResponseDto.ReviewPreViewDto> reviewPreViewDTOList = reviewList.stream()
                 .map(StoreConverter::reviewPreViewDto).collect(Collectors.toList());
 
-        return StoreResponseDto.ReviewPreViewListDto.builder()
+        return ReviewResponseDto.ReviewPreViewListDto.builder()
                 .isLast(reviewList.isLast())
                 .isFirst(reviewList.isFirst())
                 .totalPage(reviewList.getTotalPages())
