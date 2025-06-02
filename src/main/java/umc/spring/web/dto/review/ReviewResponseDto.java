@@ -20,6 +20,7 @@ public class ReviewResponseDto {
         Long memberId;
     }
 
+    // 리뷰 목록 조회
     @Builder
     @Getter
     @NoArgsConstructor
@@ -32,7 +33,6 @@ public class ReviewResponseDto {
         Boolean isFirst;
         Boolean isLast;
     }
-
     @Builder
     @Getter
     @NoArgsConstructor
@@ -43,4 +43,5 @@ public class ReviewResponseDto {
         String body;
         LocalDate createdAt;
     }
+
 }
