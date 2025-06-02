@@ -34,6 +34,9 @@ public enum ErrorStatus implements BaseErrorCode {
     // food 관련 에러
     FOOD_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "FOOD4001", "음식 카테고리를 찾을 수 없습니다."),
 
+    // 페이징 관련 에러
+    PAGE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지는 1 이상이어야 합니다."),
+
     // 예시,,,
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다.");
 
