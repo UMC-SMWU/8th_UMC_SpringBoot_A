@@ -10,10 +10,12 @@ import umc8.spring.converter.MemberConverter;
 import umc8.spring.converter.ReviewConverter;
 import umc8.spring.domain.Member;
 import umc8.spring.domain.Review;
+import umc8.spring.domain.enums.MissionStatus;
 import umc8.spring.service.MemberService.MemberCommandService;
 import umc8.spring.service.MemberService.MemberQueryServiceImpl;
 import umc8.spring.validator.annotation.ValidPage;
 import umc8.spring.web.dto.request.MemberRequestDTO;
+import umc8.spring.web.dto.response.MemberMissionResponse;
 import umc8.spring.web.dto.response.MemberResponse;
 import umc8.spring.web.dto.response.MissionResponse;
 import umc8.spring.web.dto.response.ReviewResponse;
@@ -43,14 +45,22 @@ public class MemberController {
 
     @GetMapping("/{memberId}/missions")
     @Operation(summary = "내가 진행중인 미션 목록 조회 API", description = "회원 ID를 받아 해당 회원이 진행중인 미션 목록 페이징 조회")
-    public ApiResponse<MissionResponse> getMyProgressMission() {
+    public ApiResponse<MemberMissionResponse.MemberMissionListDto> getMyProgressMission(
+            @PathVariable(name = "memberId") Long memberId,
+            @RequestParam(name = "status") MissionStatus status,
+            @ValidPage @RequestParam(name = "page") Integer page
+    ) {
 
-        return null;
+        return ApiResponse.onSuccess(
+                MemberMissionResponse.fromPage(
+                        memberQueryServiceImpl.getMissionsByStatus(memberId, status, page))
+        );
     }
 
     @PatchMapping("/{memberId}/missions/{missionId}/complete")
     @Operation(summary = "진행중인 미션 진행 완료로 바꾸기 API", description = "나의 미션 중 미션 ID를 받아 해당 미션을 완료상태로 변경")
     public ApiResponse<MissionResponse> turnMissionComplete() {
+
         return null;
     }
 }

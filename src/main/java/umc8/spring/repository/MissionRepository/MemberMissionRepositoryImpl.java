@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.Querydsl;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import umc8.spring.domain.QMission;
 import umc8.spring.domain.QStore;
@@ -48,5 +49,38 @@ public class MemberMissionRepositoryImpl implements MemberMissionRepositoryCusto
                 ).orderBy(mm.updatedAt.desc());
         List<MemberMissionDto> results = querydsl.applyPagination(pageable, query).fetch();
         return new PageImpl<>(results, pageable, query.fetchCount());
+    }
+
+    @Override
+    public Page<MemberMissionDto> findMissionsByStatus(Long memberId, MissionStatus status, Pageable pageable){
+        QMemberMission mm = QMemberMission.memberMission;
+        QMission m = QMission.mission;
+        QStore s = QStore.store;
+
+        JPQLQuery<MemberMissionDto> query = jpaQueryFactory
+                .select(Projections.constructor(
+                        MemberMissionDto.class,
+                        mm.id,
+                        m.id,
+                        m.missionSpec,
+                        mm.status.stringValue(),
+                        m.reward,
+                        s.name,
+                        m.deadLine
+                ))
+                .from(mm)
+                .join(mm.mission, m)
+                .join(m.store, s)
+                .where(
+                        mm.member.id.eq(memberId),
+                        mm.status.eq(status)
+                )
+                .orderBy(mm.updatedAt.desc());
+
+        List<MemberMissionDto> content = query.offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return PageableExecutionUtils.getPage(content, pageable, query::fetchCount);
     }
 }
