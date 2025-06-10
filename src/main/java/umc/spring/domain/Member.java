@@ -66,6 +66,9 @@ public class Member extends BaseEntity {
     @ColumnDefault("0")
     private Integer point;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private RefreshToken refreshToken;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberAgree> memberAgrees = new ArrayList<>();
 
@@ -92,6 +95,11 @@ public class Member extends BaseEntity {
         this.point = point;
         this.password = password;
         this.role = role;
+    }
+
+    public void addReview(Review review) {
+        review.setMember(this);
+        this.reviews.add(review);
     }
 
     public void addMemberPrefer(MemberPrefer memberPrefer){

@@ -60,4 +60,17 @@ public class MemberConverter {
                 .build();
     }
 
+    public static Member toMemberFromGoogle(MemberResponseDTO.GoogleMemberInfoDto requestDto){
+        return Member.builder()
+                .name(requestDto.getName())
+                .email(requestDto.getEmail())
+                .build();
+    }
+
+    public static Member toMemberFromKakao(MemberResponseDTO.KakaoMemberInfoDto requestDto){
+        return Member.builder()
+                .email(requestDto.getKakaoAccount().getEmail())
+                .build();
+    }
+
 }

@@ -11,6 +11,7 @@ import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.FoodCategoryHandler;
 import umc.spring.apiPayload.exception.handler.MemberHandler;
 import umc.spring.config.security.jwt.JwtTokenProvider;
+import umc.spring.config.security.jwt.TokenType;
 import umc.spring.converter.MemberConverter;
 import umc.spring.converter.MemberPreferConverter;
 import umc.spring.domain.FoodCategory;
@@ -65,7 +66,10 @@ public class MemberCommandServiceImpl implements MemberCommandService {
                 Collections.singleton(() -> member.getRole().name())
         );
 
-        String accessToken = jwtTokenProvider.generateToken(authentication);
+        String accessToken = jwtTokenProvider.generateToken(authentication, TokenType.ACCESS);
+        String refreshToken = jwtTokenProvider.generateToken(authentication, TokenType.REFRESH);
+
+        member.getRefreshToken().setRefreshToken(refreshToken);
 
         return MemberConverter.toLoginResultDTO(
                 member.getId(),
