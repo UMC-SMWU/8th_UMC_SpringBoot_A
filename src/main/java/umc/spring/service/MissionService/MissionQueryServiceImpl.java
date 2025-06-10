@@ -33,7 +33,7 @@ public class MissionQueryServiceImpl implements MissionQueryService {
     public Page<Mission> getMissionsByStore(Long storeId, Integer page){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreHandler(STORE_NOT_FOUND));
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page-1, 10);
         return missionRepository.findAllByStore(store, pageRequest);
     }
 
@@ -41,9 +41,8 @@ public class MissionQueryServiceImpl implements MissionQueryService {
     public Page<Mission> getMissionsByStatus(String email, String missionStatus, Integer page) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberHandler(MEMBER_NOT_FOUND));
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page-1, 10);
         return memberMissionRepository.findAllByMemberAndStatus(member, missionStatus, pageRequest)
                 .map(MemberMission::getMission);
-
     }
 }

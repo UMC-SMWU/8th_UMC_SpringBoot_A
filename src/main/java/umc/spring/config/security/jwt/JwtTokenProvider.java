@@ -30,14 +30,31 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes());
     }
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication, TokenType tokenType) {
         String email = authentication.getName();
+        if (tokenType == null){
+            throw new MemberHandler(ErrorStatus.INVALID_TOKEN);
+        }
+
+        Date accessTokenExpiredTime;
+        switch (tokenType) {
+            case ACCESS -> {
+                accessTokenExpiredTime = new Date(System.currentTimeMillis() + jwtProperties.getExpiration().getAccess());
+            }
+            case REFRESH -> {
+                accessTokenExpiredTime = new Date(System.currentTimeMillis() + jwtProperties.getExpiration().getAccess()*24);
+            }
+            default -> {
+                throw new MemberHandler(ErrorStatus.INVALID_TOKEN);
+            }
+        }
 
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", authentication.getAuthorities().iterator().next().getAuthority())
+                .claim("token_type", tokenType)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration().getAccess()))
+                .setExpiration(accessTokenExpiredTime)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

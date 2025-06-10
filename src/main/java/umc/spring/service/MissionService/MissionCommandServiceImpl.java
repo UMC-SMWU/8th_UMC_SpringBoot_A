@@ -59,7 +59,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
                 .orElseThrow(() -> new MemberHandler(MEMBER_NOT_FOUND));
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new MissionHandler(MISSION_NOT_FOUND));
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page-1, 10);
         Page<MemberMission> challengingMissions = memberMissionRepository.findChallengingMissions(member, mission, pageRequest);
         challengingMissions.forEach(MemberMission::changeStatusToComplete);
         return challengingMissions.map(MemberMission::getMission);

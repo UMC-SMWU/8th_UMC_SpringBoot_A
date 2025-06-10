@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
 import umc.spring.converter.MissionConverter;
@@ -14,11 +15,13 @@ import umc.spring.domain.Mission;
 import umc.spring.domain.mapping.MemberMission;
 import umc.spring.service.MissionService.MissionCommandService;
 import umc.spring.service.MissionService.MissionQueryService;
+import umc.spring.validation.annotation.ValidPageIndex;
 import umc.spring.web.dto.mission.MissionRequestDTO;
 import umc.spring.web.dto.mission.MissionResponseDTO;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/mission")
 public class MissionRestController {
 
@@ -39,7 +42,7 @@ public class MissionRestController {
     public ApiResponse<MissionResponseDTO.MissionDTOs> getMissionsByStatus(
             HttpServletRequest requset
             , @PathVariable("missionStatus") String missionStatus
-            , @RequestParam("page") Integer page) {
+            , @RequestParam("page") @ValidPageIndex Integer page) {
         String email = controllerUtil.findMemberByEmail(requset);
         Page<Mission> missionsByStatus = missionQueryService.getMissionsByStatus(email, missionStatus, page);
         return ApiResponse.onSuccess(MissionConverter.toMissionDTOs(missionsByStatus));
@@ -51,7 +54,7 @@ public class MissionRestController {
     public ApiResponse<MissionResponseDTO.MissionDTOs> changeStatusToDone(
             HttpServletRequest request
             , @PathVariable("missionId") Long missionId
-            , @RequestParam("page") Integer page
+            , @RequestParam("page") @ValidPageIndex Integer page
     ) {
         String email = controllerUtil.findMemberByEmail(request);
         Page<Mission> missions = missionCommandService.changeStatusToDone(email, missionId, page);

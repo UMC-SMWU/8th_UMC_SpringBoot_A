@@ -24,3 +24,29 @@ jwt:
     expiration:
       access: ${JWT_ACCESS_TOKEN_VALIDITY_IN_MILLISECONDS}
 
+keys:
+  google:
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
+    redirect-uri: ${GOOGLE_REDIRECT_URI}
+    places:
+      key: ${GOOGLE_PLACES_API_KEY}
+  kakao:
+    rest-api-key: ${KAKAO_REST_API_KEY}
+    redirect-uri: ${KAKAO_REDIRECT_URI}
+    client-secret: ${KAKAO_CLIENT_SECRET}
+
+
+cloud:
+  aws:
+    s3:
+      bucket: umc-8th
+      path:
+        review: review
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY_ID}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}

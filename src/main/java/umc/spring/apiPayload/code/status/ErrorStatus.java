@@ -44,8 +44,11 @@ public enum ErrorStatus implements BaseErrorCode {
     // 액세스 관련 에러
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "AUTH008", "비밀번호가 유효하지 않습니다"),
 
+    // 페이지 관련 에러
+    INVALID_PAGE_INDEX(HttpStatus.BAD_REQUEST, "PAGE001", "페이지 번호가 유효하지 않습니다. 1 이상이어야합니다."),
 
-
+    FAIL_GET_GOOGLE_USER_INFO(HttpStatus.BAD_REQUEST, "GOOGLE001", "구글 유저 정보 획득 실패"),
+    FAIL_GET_KAKAO_USER_INFO(HttpStatus.BAD_REQUEST, "KAKAO001", "카카오 유저 정보 획득 실패"),
 
     // 예시
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
