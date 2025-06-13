@@ -2,7 +2,6 @@ package umc.spring.service.MemberService.OAuthService;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.constraintvalidators.hv.CodePointLengthValidator;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -96,15 +95,9 @@ public class KakaoAuthorizationService {
                 Collections.singleton(() -> member.getRole().name())
         );
 
-
-        String refreshToken;
-        if (member.getRefreshToken() != null && jwtTokenProvider.validateToken(member.getRefreshToken().getRefreshToken())){
-            refreshToken = member.getRefreshToken().getRefreshToken();
-        } else {
-            refreshToken = jwtTokenProvider.generateToken(authentication, TokenType.REFRESH);
-        }
-
         String accessToken = jwtTokenProvider.generateToken(authentication, TokenType.ACCESS);
+        String refreshToken = jwtTokenProvider.generateToken(authentication, TokenType.REFRESH);
+        member.getRefreshToken().setRefreshValue(refreshToken);
 
         return TokenConverter.createTokenResponseDto(accessToken, refreshToken);
     }

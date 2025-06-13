@@ -1,12 +1,11 @@
 package umc.spring.service.MemberService;
 
-
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.FoodCategoryHandler;
 import umc.spring.apiPayload.exception.handler.MemberHandler;
@@ -14,13 +13,14 @@ import umc.spring.config.security.jwt.JwtTokenProvider;
 import umc.spring.config.security.jwt.TokenType;
 import umc.spring.converter.MemberConverter;
 import umc.spring.converter.MemberPreferConverter;
+import umc.spring.converter.TokenConverter;
 import umc.spring.domain.FoodCategory;
 import umc.spring.domain.Member;
 import umc.spring.domain.mapping.MemberPrefer;
 import umc.spring.repository.FoodCategoryRepository;
 import umc.spring.repository.MemberRepository;
 import umc.spring.web.dto.member.MemberRequestDTO;
-import umc.spring.web.dto.member.MemberResponseDTO;
+import umc.spring.web.dto.token.TokenDto;
 
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +53,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     }
 
     @Override
-    public MemberResponseDTO.LoginResultDTO loginMember(MemberRequestDTO.LoginRequestDTO request) {
+    public TokenDto.TokenResponseDto loginMember(MemberRequestDTO.LoginRequestDTO request) {
         Member member = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
@@ -69,11 +69,37 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         String accessToken = jwtTokenProvider.generateToken(authentication, TokenType.ACCESS);
         String refreshToken = jwtTokenProvider.generateToken(authentication, TokenType.REFRESH);
 
-        member.getRefreshToken().setRefreshToken(refreshToken);
+        member.getRefreshToken().setRefreshValue(refreshToken);
 
-        return MemberConverter.toLoginResultDTO(
+        return TokenConverter.toTokenResultDTO(
                 member.getId(),
-                accessToken
+                accessToken,
+                refreshToken
         );
+    }
+
+    // Refresh Token을 가지고 Access Token 발급
+    @Transactional(readOnly = true)
+    @Override
+    public TokenDto.AccessTokenDto reissueAccessToken(String refreshToken){
+        if (!jwtTokenProvider.validateToken(refreshToken, TokenType.REFRESH)){
+            throw new MemberHandler(ErrorStatus.INVALID_TOKEN);
+        }
+
+        String email = jwtTokenProvider.parseClaims(refreshToken).getSubject();
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        if (!isEqualWithSavedToken(member, refreshToken)){
+            throw new MemberHandler(ErrorStatus.INVALID_TOKEN);
+        }
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+
+        return TokenConverter.toAccessTokenDto(jwtTokenProvider.generateToken(authentication, TokenType.ACCESS));
+    }
+
+    private boolean isEqualWithSavedToken(Member member, String refreshTokenValue){
+        String actualValue = member.getRefreshToken()
+                                .getRefreshValue();
+        return refreshTokenValue.equals(actualValue);
     }
 }

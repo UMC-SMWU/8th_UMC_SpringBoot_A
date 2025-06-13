@@ -14,6 +14,7 @@ public class TokenDto {
     @AllArgsConstructor
     @Getter
     public static class TokenResponseDto{
+        Long memberId;
         String accessToken;
         String refreshToken;
     }
@@ -27,7 +28,33 @@ public class TokenDto {
         private String accessToken;
     }
 
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    public static class GoogleAccessTokenDto {
 
+        @SerializedName("access_token")
+        String accessToken;
+    }
+
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    public static class AccessTokenDto {
+        String accessToken;
+    }
+
+    @Getter
+    public static class GoogleAuthorizationCode {
+        String code;
+    }
+
+    @Getter
+    public static class KakaoAuthorizationCode {
+        String code;
+    }
 
 
 }

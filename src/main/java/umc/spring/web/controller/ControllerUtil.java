@@ -16,4 +16,8 @@ public class ControllerUtil {
         Authentication authentication = jwtTokenProvider.extractAuthentication(request);
         return authentication.getName();
     }
+    public String getTokenFromServletRequest(HttpServletRequest request) {
+        return jwtTokenProvider.resolveToken(request);
+    }
+
 }

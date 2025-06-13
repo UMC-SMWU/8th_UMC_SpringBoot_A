@@ -30,7 +30,7 @@ import java.util.Map;
 public class GoogleAuthorizationService {
 
     private final String TOKEN_URL = "https://oauth2.googleapis.com/token";
-    private final String SCOPE = "profile_nickname,profile_image,account_email";
+    private final String SCOPE = "email%20profile";
     private final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
 
     private final OAuthProperties oAuthProperties;
@@ -67,35 +67,31 @@ public class GoogleAuthorizationService {
         if (isRequestSuccess(responseEntity)){
             String json = responseEntity.getBody();
             Gson gson = new Gson();
-//            return gson.fromJson(json, Goo)
+            return gson.fromJson(json, TokenDto.GoogleAccessTokenDto.class)
+                    .getAccessToken();
         }
         throw new MemberHandler(ErrorStatus.FAIL_GET_GOOGLE_USER_INFO);
     }
 
-    @Transactional
-    public TokenDto.TokenResponseDto signUpOrSignIn(String googleAccessToken){
-        MemberResponseDTO.GoogleMemberInfoDto googleMemberInfo = getGoogleUserInfo(googleAccessToken);
+        @Transactional
+        public TokenDto.TokenResponseDto signUpOrSignIn(String googleAccessToken){
+            MemberResponseDTO.GoogleMemberInfoDto googleMemberInfo = getGoogleUserInfo(googleAccessToken);
 
-        Member member = memberRepository.findByEmail(googleMemberInfo.getEmail())
-                .orElseGet(() -> memberRepository.save(MemberConverter.toMemberFromGoogle(googleMemberInfo)));
+            Member member = memberRepository.findByEmail(googleMemberInfo.getEmail())
+                    .orElseGet(() -> memberRepository.save(MemberConverter.toMemberFromGoogle(googleMemberInfo)));
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(), "",
-                Collections.singleton(() -> member.getRole().name())
-        );
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    member.getEmail(), "",
+                    Collections.singleton(() -> member.getRole().name())
+            );
 
-        String accessToken = jwtTokenProvider.generateToken(authentication, TokenType.ACCESS);
+            String accessToken = jwtTokenProvider.generateToken(authentication, TokenType.ACCESS);
+            String refreshToken = jwtTokenProvider.generateToken(authentication, TokenType.REFRESH);
 
-        String refreshToken;
-        if (member.getRefreshToken() != null && jwtTokenProvider.validateToken(member.getRefreshToken().getRefreshToken())){
-            refreshToken = member.getRefreshToken().getRefreshToken();
-        } else {
-            refreshToken = jwtTokenProvider.generateToken(authentication, TokenType.REFRESH);
-            member.getRefreshToken().setRefreshToken(refreshToken);
+            member.getRefreshToken().setRefreshValue(refreshToken);
+
+            return TokenConverter.createTokenResponseDto(accessToken, refreshToken);
         }
-
-        return TokenConverter.createTokenResponseDto(accessToken, refreshToken);
-    }
 
     // 액세스 토큰을 넣어서 userinfo를 가져온다
     private MemberResponseDTO.GoogleMemberInfoDto getGoogleUserInfo(String accessToken){

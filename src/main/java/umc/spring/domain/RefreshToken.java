@@ -15,10 +15,10 @@ public class RefreshToken {
     private Long id;
 
     @Setter
-    private String refreshToken;
+    private String refreshValue;
 
     @Builder
-    public RefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public RefreshToken(String refreshValue) {
+        this.refreshValue = refreshValue;
     }
 }

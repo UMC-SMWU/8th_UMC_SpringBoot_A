@@ -11,4 +11,18 @@ public class TokenConverter {
                 .refreshToken(refreshToken)
                 .build();
     }
+
+    public static TokenDto.AccessTokenDto toAccessTokenDto(String accessToken){
+        return TokenDto.AccessTokenDto.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static TokenDto.TokenResponseDto toTokenResultDTO(Long memberId, String accessToken, String refreshToken) {
+        return TokenDto.TokenResponseDto.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }
