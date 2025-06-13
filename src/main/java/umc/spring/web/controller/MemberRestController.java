@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
 import umc.spring.converter.MemberConverter;
 import umc.spring.converter.ReviewConverter;
+import umc.spring.converter.TokenConverter;
 import umc.spring.domain.Member;
 import umc.spring.domain.Review;
 import umc.spring.service.MemberService.MemberCommandService;
@@ -21,6 +22,7 @@ import umc.spring.validation.annotation.ValidPageIndex;
 import umc.spring.web.dto.member.MemberRequestDTO;
 import umc.spring.web.dto.member.MemberResponseDTO;
 import umc.spring.web.dto.review.ReviewResponseDTO;
+import umc.spring.web.dto.token.TokenDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +43,7 @@ public class MemberRestController {
 
     @PostMapping("/login")
     @Operation(summary = "유저 로그인 API", description = "유저가 로그인하는 API입니다.")
-    public ApiResponse<MemberResponseDTO.LoginResultDTO> login(@RequestBody @Valid MemberRequestDTO.LoginRequestDTO request){
+    public ApiResponse<TokenDto.TokenResponseDto> login(@RequestBody @Valid MemberRequestDTO.LoginRequestDTO request){
         return ApiResponse.onSuccess(memberCommandService.loginMember(request));
     }
 
@@ -54,14 +56,16 @@ public class MemberRestController {
         return ApiResponse.onSuccess(memberQueryService.getMemberInfo(email));
     }
 
-        @GetMapping("/reviews")
-        @Operation(summary = "유저 리뷰 조회", description = "유저가 작성한 리뷰를 조회합니다.",
-                    security = {@SecurityRequirement(name = "JWT TOKEN")})
-        public ApiResponse<ReviewResponseDTO.ReviewPreviewListDTO> getMemberReviews(HttpServletRequest request
-                , @RequestParam("page") @ValidPageIndex Integer page){
-            String email = controllerUtil.findMemberByEmail(request);
-            Page<Review> reviews = reviewCommandService.getMemberReviews(email, page);
-            return ApiResponse.onSuccess(ReviewConverter.reviewPreviewListDTO(reviews));
-        }
+    @GetMapping("/reviews")
+    @Operation(summary = "유저 리뷰 조회", description = "유저가 작성한 리뷰를 조회합니다.",
+                security = {@SecurityRequirement(name = "JWT TOKEN")})
+    public ApiResponse<ReviewResponseDTO.ReviewPreviewListDTO> getMemberReviews(HttpServletRequest request
+            , @RequestParam("page") @ValidPageIndex Integer page){
+        String email = controllerUtil.findMemberByEmail(request);
+        Page<Review> reviews = reviewCommandService.getMemberReviews(email, page);
+        return ApiResponse.onSuccess(ReviewConverter.reviewPreviewListDTO(reviews));
+    }
+
+
 
 }

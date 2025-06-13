@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("keys")
 public class OAuthProperties {
     private Google google;
-    private Kakao kakao;
+//    private Kakao kakao;
 
     @Getter
     public static class Google {
@@ -18,11 +18,11 @@ public class OAuthProperties {
         private String redirectUri;
     }
 
-    @Getter
-    public static class Kakao {
-        private String restApiKey;
-        private String clientSecret;
-        private String redirectUri;
-    }
+//    @Getter
+//    public static class Kakao {
+//        private String restApiKey;
+//        private String clientSecret;
+//        private String redirectUri;
+//    }
 
 }

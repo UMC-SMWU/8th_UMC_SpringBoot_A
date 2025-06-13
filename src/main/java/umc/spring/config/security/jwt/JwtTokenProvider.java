@@ -1,10 +1,8 @@
 package umc.spring.config.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -59,24 +57,35 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token, TokenType tokenType) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(getSigningKey())
                     .build()
                     .parseClaimsJws(token);
-            return true;
+            return hasProperType(token, tokenType);
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
+    public Claims parseClaims(String token){
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        } catch (SignatureException e) {
+            throw new MemberHandler(ErrorStatus.INVALID_TOKEN);
+        }
+    }
+
+
     public Authentication getAuthentication(String token){
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims = parseClaims(token);
 
         String email = claims.getSubject();
         String role = claims.get("role", String.class);
@@ -95,9 +104,17 @@ public class JwtTokenProvider {
 
     public Authentication extractAuthentication(HttpServletRequest request){
         String accessToken = resolveToken(request);
-        if (accessToken == null || !validateToken(accessToken)){
+        if (accessToken == null || !validateToken(accessToken, TokenType.ACCESS)){
             throw new MemberHandler(ErrorStatus.INVALID_TOKEN);
         }
         return getAuthentication(accessToken);
     }
+
+    private boolean hasProperType(String token, TokenType tokenType){
+        Claims claims = parseClaims(token);
+        String tokenTypeClaim = (String) claims.get("token_type");
+
+        return tokenType == TokenType.valueOf(tokenTypeClaim);
+    }
+
 }
