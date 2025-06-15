@@ -2,6 +2,7 @@ package umc8.spring.converter;
 
 import org.springframework.data.domain.Page;
 import umc8.spring.domain.Mission;
+import umc8.spring.web.dto.response.StoreMissionResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;

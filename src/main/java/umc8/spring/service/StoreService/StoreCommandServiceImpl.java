@@ -18,6 +18,7 @@ import umc8.spring.repository.MissionRepository.MissionRepository;
 import umc8.spring.repository.RegionRepository;
 import umc8.spring.repository.ReviewRepository.ReviewRepository;
 import umc8.spring.repository.StoreRepository.StoreRepository;
+import umc8.spring.web.dto.MemberMissionDto;
 import umc8.spring.web.dto.request.MissionRequest;
 import umc8.spring.web.dto.request.ReviewRequest;
 import umc8.spring.web.dto.request.StoreRequest;
@@ -96,11 +97,13 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                 .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         MemberMission memberMission = MemberMission.builder()
-                .member(member)
                 .mission(mission)
+                .member(member)
                 .status(MissionStatus.CHALLENGING)
                 .build();
 
-        return MemberMissionResponse.from(memberMissionRepository.save(memberMission));
+        MemberMission savedMemberMission = memberMissionRepository.save(memberMission);
+
+        return null;
     }
 }
