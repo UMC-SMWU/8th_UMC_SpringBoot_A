@@ -43,10 +43,11 @@ public class MemberResponseDTO {
     }
 
     @Getter
+    @AllArgsConstructor
     public static class KakaoMemberInfoDto {
         Long id;
 
-        @SerializedName("kako_account")
+        @SerializedName("kakao_account")
         KakaoAccount kakaoAccount;
 
         public Boolean isValidatedEmail(){
@@ -58,6 +59,7 @@ public class MemberResponseDTO {
     }
 
     @Getter
+    @AllArgsConstructor
     public static class KakaoAccount {
         @SerializedName("profile_nickname_needs_agreement")
         private Boolean profileNickanmeNeedsAgreement;
@@ -73,6 +75,8 @@ public class MemberResponseDTO {
         private String email;
     }
 
+    @Getter
+    @AllArgsConstructor
     public static class Profile {
         @SerializedName("nickname")
         private String name;

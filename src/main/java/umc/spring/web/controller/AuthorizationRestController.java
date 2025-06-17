@@ -1,6 +1,5 @@
 package umc.spring.web.controller;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
 import umc.spring.service.MemberService.MemberCommandService;
-import umc.spring.service.MemberService.MemberCommandServiceImpl;
 import umc.spring.service.MemberService.OAuthService.GoogleAuthorizationService;
 import umc.spring.service.MemberService.OAuthService.KakaoAuthorizationService;
 import umc.spring.web.dto.token.TokenDto;
@@ -31,7 +29,7 @@ public class AuthorizationRestController {
     @PostMapping("/google")
     public ApiResponse<TokenDto.TokenResponseDto> googleAuthorization(@RequestBody TokenDto.GoogleAuthorizationCode googleAuthorizationCode) {
         String googleAccessToken = googleAuthorizationService.getGoogleAccessToken(googleAuthorizationCode.getCode());
-        TokenDto.TokenResponseDto tokenResponseDto = googleAuthorizationService.signUpOrSignIn(googleAccessToken);
+        TokenDto.TokenResponseDto tokenResponseDto = googleAuthorizationService.googleSignUpOrSignIn(googleAccessToken);
         return ApiResponse.onSuccess(tokenResponseDto);
     }
 
@@ -43,7 +41,7 @@ public class AuthorizationRestController {
     }
 
 
-    @GetMapping("/kakao")
+    @PostMapping("/kakao")
     public ApiResponse<TokenDto.TokenResponseDto> kakaoAuthorization(@RequestBody TokenDto.KakaoAuthorizationCode kakaoAuthorizationCode) {
         String kakaoAccessToken = kakaoAuthorizationService.getKakaoAccessToken(kakaoAuthorizationCode.getCode());
         TokenDto.TokenResponseDto tokenResponseDto = kakaoAuthorizationService.kakaoSignUpOrSignIn(kakaoAccessToken);

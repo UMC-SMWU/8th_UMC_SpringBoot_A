@@ -74,10 +74,10 @@ public class GoogleAuthorizationService {
     }
 
         @Transactional
-        public TokenDto.TokenResponseDto signUpOrSignIn(String googleAccessToken){
-            MemberResponseDTO.GoogleMemberInfoDto googleMemberInfo = getGoogleUserInfo(googleAccessToken);
+        public TokenDto.TokenResponseDto googleSignUpOrSignIn(String googleAccessToken){
+            MemberResponseDTO.GoogleMemberInfoDto googleMemberInfo = getGoogleMemberInfo(googleAccessToken);
 
-            Member member = memberRepository.findByEmail(googleMemberInfo.getEmail())
+            Member member = memberRepository.findByEmailAndSocialType(googleMemberInfo.getEmail(), "GOOGLE")
                     .orElseGet(() -> memberRepository.save(MemberConverter.toMemberFromGoogle(googleMemberInfo)));
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -94,7 +94,7 @@ public class GoogleAuthorizationService {
         }
 
     // 액세스 토큰을 넣어서 userinfo를 가져온다
-    private MemberResponseDTO.GoogleMemberInfoDto getGoogleUserInfo(String accessToken){
+    private MemberResponseDTO.GoogleMemberInfoDto getGoogleMemberInfo(String accessToken){
         RestTemplate restTemplate = new RestTemplate();
         String url = new StringBuilder(USER_INFO_URL)
                 .append("?access_token=")
