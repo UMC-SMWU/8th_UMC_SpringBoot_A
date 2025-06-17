@@ -58,6 +58,7 @@ public class MemberConverter {
 
     public static Member toMemberFromGoogle(MemberResponseDTO.GoogleMemberInfoDto requestDto){
         return Member.builder()
+                .socialId(Long.parseLong(requestDto.getId()))
                 .name(requestDto.getName())
                 .email(requestDto.getEmail())
                 .socialType(SocialType.GOOGLE)
@@ -66,6 +67,7 @@ public class MemberConverter {
 
     public static Member toMemberFromKakao(MemberResponseDTO.KakaoMemberInfoDto requestDto){
         return Member.builder()
+                .socialId(requestDto.getId())
                 .email(requestDto.getKakaoAccount().getEmail())
                 .socialType(SocialType.KAKAO)
                 .build();

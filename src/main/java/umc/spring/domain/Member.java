@@ -48,6 +48,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
+    private Long socialId;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
     private MemberStatus status;
@@ -83,7 +85,7 @@ public class Member extends BaseEntity {
 
     @Builder
     private Member(String name, String address, String specAddress, Gender gender, SocialType socialType, MemberStatus status, LocalDate inactiveDate,
-                   String email, Integer point, String password, Role role){
+                   String email, Integer point, String password, Role role, Long socialId){
         this.name = name;
         this.address = address;
         this.specAddress = specAddress;
@@ -95,6 +97,7 @@ public class Member extends BaseEntity {
         this.point = point;
         this.password = password;
         this.role = role;
+        this.socialId = socialId;
     }
 
     public void addReview(Review review) {

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -39,7 +40,7 @@ public class KakaoAuthorizationService {
     private static final String SCOPE = "profile_nickname,profile_image,account_email";
 
     public String getRedirectUrl() {
-        return new StringBuilder("")
+        return new StringBuilder("https://kauth.kakao.com/oauth/authorize")
                 .append("client_id=")
                 .append(oAuthProperties.getKakao().getRestApiKey())
                 .append("&redirect_uri=")
@@ -80,6 +81,7 @@ public class KakaoAuthorizationService {
         throw new MemberHandler(ErrorStatus.INVALID_TOKEN);
     }
 
+    @Transactional
     public TokenDto.TokenResponseDto kakaoSignUpOrSignIn(String kakaoAccessToken){
         MemberResponseDTO.KakaoMemberInfoDto kakaoMemberInfo = getKakaoMemberInfo(kakaoAccessToken);
 
@@ -87,7 +89,7 @@ public class KakaoAuthorizationService {
             throw new MemberHandler(ErrorStatus.FAIL_GET_KAKAO_USER_INFO);
         }
 
-        Member member = memberRepository.findByEmail(kakaoMemberInfo.getKakaoAccount().getEmail())
+        Member member = memberRepository.findByEmailAndSocialType(kakaoMemberInfo.getKakaoAccount().getEmail(), "KAKAO")
                 .orElseGet(() -> memberRepository.save(MemberConverter.toMemberFromKakao(kakaoMemberInfo)));
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
