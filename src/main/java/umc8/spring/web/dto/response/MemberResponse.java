@@ -9,31 +9,34 @@ import java.time.LocalDateTime;
 
 public class MemberResponse {
 
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class JoinResultDto {
-        private Long memberId;
-        private LocalDateTime createdAt;
-    }
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class JoinResultDto {
 
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class LoginResultDTO {
-        private Long memberId;
-        private String accessToken;
-    }
+		private Long memberId;
+		private LocalDateTime createdAt;
+	}
 
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class MemberInfoDTO {
-        private String name;
-        private String email;
-        private String gender;
-    }
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class LoginResultDTO {
+
+		private Long memberId;
+		private String accessToken;
+	}
+
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class MemberInfoDTO {
+
+		private String name;
+		private String email;
+		private String gender;
+	}
 }
