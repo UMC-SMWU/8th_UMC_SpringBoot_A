@@ -1,3 +1,4 @@
+# spring
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/spring?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
@@ -17,3 +18,10 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+
+# jwt
+jwt:
+  token:
+    secretKey: umceightfightingjwttokenauthentication
+    expiration:
+      access: 14400000 # 인증 정보 만료 시간 4시간(ms)

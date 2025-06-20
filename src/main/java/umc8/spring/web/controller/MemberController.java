@@ -1,6 +1,8 @@
 package umc8.spring.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import umc8.spring.domain.Member;
 import umc8.spring.domain.Review;
 import umc8.spring.domain.enums.MissionStatus;
 import umc8.spring.service.MemberService.MemberCommandService;
+import umc8.spring.service.MemberService.MemberQueryService;
 import umc8.spring.service.MemberService.MemberQueryServiceImpl;
 import umc8.spring.validator.annotation.ValidPage;
 import umc8.spring.web.dto.request.MemberRequestDTO;
@@ -27,11 +30,19 @@ public class MemberController {
 
     private final MemberCommandService memberCommandService;
     private final MemberQueryServiceImpl memberQueryServiceImpl;
+    private final MemberQueryService memberQueryService;
 
-    @PostMapping("/")
+    @PostMapping("/join")
+    @Operation(summary = "유저 회원가입 API", description = "유저가 회원가입하는 API 입니다.")
     public ApiResponse<MemberResponse.JoinResultDto> join(@RequestBody @Valid MemberRequestDTO.JoinDto request) {
         Member member = memberCommandService.joinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "유저 로그인 API",description = "유저가 로그인하는 API입니다.")
+    public ApiResponse<MemberResponse.LoginResultDTO> login(@RequestBody @Valid MemberRequestDTO.LoginRequestDTO request) {
+        return ApiResponse.onSuccess(memberCommandService.loginMember(request));
     }
 
     @GetMapping("/{memberId}/reviews")
@@ -62,5 +73,14 @@ public class MemberController {
     public ApiResponse<MissionResponse> turnMissionComplete() {
 
         return null;
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "유저 내 정보 조회 API - 인증 필요",
+            description = "유저가 내 정보를 조회하는 API입니다.",
+            security = { @SecurityRequirement(name = "JWT TOKEN") }
+    )
+    public ApiResponse<MemberResponse.MemberInfoDTO> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(memberQueryService.getMemberInfo(request));
     }
 }

@@ -27,11 +27,29 @@ public class MemberConverter {
         };
 
         return Member.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .gender(gender)
                 .address(request.getAddress())
                 .specAddress(request.getSpecAddress())
-                .gender(gender)
-                .name(request.getName())
+                .role(request.getRole())
                 .memberPreferList(new ArrayList<>())
+                .build();
+    }
+
+    public static MemberResponse.LoginResultDTO toLoginResultDTO(Long memberId, String accessToken) {
+        return MemberResponse.LoginResultDTO.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static MemberResponse.MemberInfoDTO toMemberInfoDTO(Member member){
+        return MemberResponse.MemberInfoDTO.builder()
+                .name(member.getName())
+                .email(member.getEmail())
+                .gender(member.getGender().name())
                 .build();
     }
 }
