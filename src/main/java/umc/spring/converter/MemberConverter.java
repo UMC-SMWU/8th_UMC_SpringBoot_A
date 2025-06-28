@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 public class MemberConverter {
 
-    public static MemberResponseDto.JoinResultDTO toJoinResultDTO(Member member){
-        return MemberResponseDto.JoinResultDTO.builder()
+    public static MemberResponseDto.JoinResultDto toJoinResultDTO(Member member){
+        return MemberResponseDto.JoinResultDto.builder()
                 .memberId(member.getId())
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -44,6 +44,9 @@ public class MemberConverter {
                 .gender(gender)
                 .name(request.getName())
                 .memberPreferList(new ArrayList<>())
+                .role(request.getRole())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .build();
     }
 

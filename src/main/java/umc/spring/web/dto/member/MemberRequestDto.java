@@ -1,9 +1,12 @@
 package umc.spring.web.dto.member;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
+import umc.spring.domain.enums.Role;
 import umc.spring.validation.annotation.ExistCategories;
 
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.List;
 public class MemberRequestDto {
 
     @Getter
+    @Setter
     public static class JoinDto{
         @NotBlank
         String name;
@@ -28,5 +32,13 @@ public class MemberRequestDto {
         String specAddress;
         @ExistCategories
         List<Long> preferCategory;
+
+        @NotBlank
+        @Email
+        String email;
+        @NotBlank
+        String password;
+        @NotNull
+        Role role;
     }
 }
