@@ -79,11 +79,10 @@ public class MemberRestController {
         Member member = memberCommandService.joinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
     }
-
     /*
     @PostMapping("/login")
     @Operation(summary = "유저 로그인 API", description = "유저가 로그인하는 API입니다.")
-    public ApiResponse<MemberResponseDto.JoinResultDto> login(@RequestBody @Valid MemberRequestDto.JoinResultDto request){
+    public ApiResponse<MemberResponseDto.JoinResultDto> login(@RequestBody @Valid MemberRequestDto.JoinDto request){
         return ApiResponse.onSuccess(memberCommandService.loginMember(request));
     }
      */

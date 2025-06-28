@@ -1,6 +1,7 @@
 package umc.spring.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,6 +49,7 @@ public class MemberViewController {
 
     @GetMapping("/home")
     public String home() {
+        System.out.println("✅ 인증 객체: " + SecurityContextHolder.getContext().getAuthentication());
         return "home";
     }
 
