@@ -49,7 +49,7 @@ public class MemberViewController {
 
     @GetMapping("/home")
     public String home() {
-        System.out.println("✅ 인증 객체: " + SecurityContextHolder.getContext().getAuthentication());
+//        System.out.println("✅ 인증 객체: " + SecurityContextHolder.getContext().getAuthentication());
         return "home";
     }
 

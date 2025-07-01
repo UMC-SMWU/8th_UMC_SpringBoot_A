@@ -26,6 +26,7 @@ public enum ErrorStatus implements BaseErrorCode {
     // 멤버 관련 에러
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,"MEMBER4003","비밀번호가 알맞지 않습니다."),
 
     // 미션 관련 에러
     MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4001", "해당 미션이 없습니다."),
@@ -37,6 +38,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 페이징 관련 에러
     PAGE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지는 1 이상이어야 합니다."),
+
+    // jwt 토큰 관련 에러
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST,"TOKEN4001","유효하지 않은 토큰입니다."),
 
     // 예시,,,
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다.");

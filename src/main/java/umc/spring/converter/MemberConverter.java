@@ -50,4 +50,19 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResponseDto.LoginResultDto toLoginResultDto(Long memberId, String accessToken) {
+        return MemberResponseDto.LoginResultDto.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static MemberResponseDto.MemberInfoDto toMemberInfoDto(Member member){
+        return MemberResponseDto.MemberInfoDto.builder()
+                .name(member.getName())
+                .email(member.getEmail())
+                .gender(member.getGender().name())
+                .build();
+    }
+
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.FoodCategoryHandler;
 import umc.spring.apiPayload.exception.handler.MemberHandler;
+import umc.spring.config.security.jwt.JwtTokenProvider;
 import umc.spring.converter.MemberConverter;
 import umc.spring.converter.MemberPreferConverter;
 import umc.spring.domain.FoodCategory;
@@ -30,6 +31,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final MemberRepository memberRepository;
     private final FoodCategoryRepository foodCategoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
     @Override
@@ -48,6 +50,28 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         memberPreferList.forEach(memberPrefer -> {memberPrefer.setMember(newMember);});
 
         return memberRepository.save(newMember);
+    }
+
+    @Override
+    public MemberResponseDto.LoginResultDto loginMember(MemberRequestDto.LoginRequestDto request) {
+        Member member = memberRepository.findByEmail(request.getEmail())
+                .orElseThrow(()-> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            throw new MemberHandler(ErrorStatus.INVALID_PASSWORD);
+        }
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                member.getEmail(), null,
+                Collections.singleton(() -> member.getRole().name())
+        );
+
+        String accessToken = jwtTokenProvider.generateToken(authentication);
+
+        return MemberConverter.toLoginResultDto(
+                member.getId(),
+                accessToken
+        );
     }
 
 }
